@@ -1,0 +1,80 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+
+{% block breadcrumbs %}{% endblock breadcrumbs %}
+
+{% block extrastyle %}
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.css">
+<style>
+    .indicator-cell {
+        background-color: #f8f9fa;
+        border-radius: 8px;
+        padding: 15px;
+        margin-bottom: 20px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .indicator-title {
+        font-size: 1.2em;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+    .indicator-value {
+        font-size: 2em;
+        color: #007bff;
+    }
+</style>
+{% endblock extrastyle %}
+
+{% block content %}
+<div class="container">
+    <h1 class="mt-4 mb-4">{{ titulo_pagina }}</h1>
+
+    <div class="row mb-4">
+        {% for indicador in indicadores %}
+        <div class="col-md-3">
+            <div class="indicator-cell">
+                <div class="indicator-title">{{ indicador.titulo }}</div>
+                <div class="indicator-value">{{ indicador.valor }}</div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <table id="dataframeTable" class="display">
+                <thead>
+                    <tr>
+                        {% for coluna in colunas_dataframe %}
+                        <th>{{ coluna }}</th>
+                        {% endfor %}
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for linha in dados_dataframe %}
+                    <tr>
+                        {% for valor in linha %}
+                        <td>{{ valor }}</td>
+                        {% endfor %}
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+
+{% block extrajs %}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.js"></script>
+<script>
+$(document).ready(function() {
+    $('#dataframeTable').DataTable({
+        "language": {
+            "url": "//cdn.datatables.net/plug-ins/1.10.24/i18n/Portuguese-Brasil.json"
+        }
+    });
+});
+</script>
+{% endblock extrajs %}
